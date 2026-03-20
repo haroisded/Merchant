@@ -1,8 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Signin from "./pages/Signin";
 import supabase from "./utils/supabase"
 import { useEffect, useState } from "react";
 import SessionContext from "./context/SessionContext"
@@ -32,9 +30,11 @@ function App() {
 	return (
 	<SessionContext.Provider value={session}>
 			<Routes>
-				<Route path="/" element={<Home />} />
-				{ !session && <Route path="/register" element={<Register />} /> }
-				{ !session && <Route path="/Signin" element={<Signin />} /> }
+
+						<Route path="/">
+									<Route index element={<Home />}/>
+						</Route>
+
 			</Routes>
 	</SessionContext.Provider>
 	);
