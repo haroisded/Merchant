@@ -1,7 +1,7 @@
 const Home = () => {
-	return (
-		<div>REACT Scaffold</div>
-	);
-};
+		return (
+				<div>This is the Home</div>
+		)
+}
 
-export default Home;
+export default Home
