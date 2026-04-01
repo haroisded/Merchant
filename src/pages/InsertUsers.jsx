@@ -6,11 +6,10 @@ import { NavLink } from "react-router"
 const InsertUsers = () => {
 
 
-  async function InsertFriends(passed_user_id, passed_friend_quantity){
-   const { error } = await supabase.rpc('user_friends', {
-    new_user_id: passed_user_id,
-    friend_quantity: passed_friend_quantity,
-   });
+  async function InsertFriends(passed_user_id){
+   const { error } = await supabase
+   .from("friends")
+   .insert({user_id: passed_user_id})
 
    if(error){ console.log(error); }
   }
@@ -31,7 +30,9 @@ const InsertUsers = () => {
 
 
     if(error){ console.log(error) }
-    if(data){ await InsertFriends(data.id, data.quantity) }
+    if(data){ 
+      for(let index = 0; index < data.quantity; index++){ await InsertFriends(data.id) }
+    }
 
 
     event.target.reset();  // clears all form fields
