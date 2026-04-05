@@ -1,6 +1,6 @@
 import { useUsers, useActions } from "@/store/userStore"
 import { useEffect } from "react"
-import { NavLink } from "react-router"
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import supabase from "@/utils/supabase"
 
 
@@ -26,9 +26,22 @@ const FetchUsers = () => {
 
 
     return (
-      <div>
+      <>
         {users.map((user) => (
           <div key={user.id}>
+
+            {/* container with fixed size */}
+          {user.user_image_url && (
+            <div className="w-[400px] h-[300px] bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
+              <img 
+                src={user.user_image_url} 
+                alt="Product" 
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
+          )}
+
+
             <p> - - - - - </p>
             <p>Name: {user.name}</p>
             <p>Age: {user.age}</p>
@@ -51,7 +64,8 @@ const FetchUsers = () => {
             <p> - - - - - </p>
           </div>
         ))}
-      </div>
+
+      </>
     );
 
 }
