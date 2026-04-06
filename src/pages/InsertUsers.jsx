@@ -27,7 +27,9 @@ const InsertUsers = () => {
           mimeType: 'image/jpeg',     // Convert to JPEG/webp format
           quality: 0.9,
           retainExif: false,          // Remove EXIF metadata (default)
-          maxWidth: 180,
+          width: 400,
+          height: 300,
+          resize: 'contain',
           success(result) { resolve(result); }, // result is a Blob (or File) with the compressed image
           error(err) { reject(err); },
         });
@@ -116,9 +118,9 @@ const InsertUsers = () => {
 
 
    <Input
-     label="Email"
-     placeholder="Enter Email"
-     name="email"
+     label="Country"
+     placeholder="Enter Country"
+     name="country"
      type="text"
    />
 
