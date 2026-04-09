@@ -6,7 +6,6 @@ import FetchUsers from "@/pages/FetchUsers";
 
 function App() {
 
-
 	return (
 	<Routes>
 
