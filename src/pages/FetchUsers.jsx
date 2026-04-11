@@ -1,25 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'  // ← add useQueryClient
-import supabase from '@/utils/supabase'
-
-// Fetch function (unchanged)
-const fetchUsers = async () => {
-  const { data, error } = await supabase.from("users").select('*')
-  if (error) throw new Error(error.message)
-  return data
-}
-
-
-
-// Delete function
-const deleteUser = async (userId) => {
-  const { error } = await supabase
-  .from("users")
-  .delete()
-  .eq("id", userId)
-
-  if (error) throw new Error(error.message)
-}
-
+import { fetchUsers, deleteUser } from '@/utils/queries_supabase'
 
 
 export default function UsersList() {
@@ -47,7 +27,7 @@ export default function UsersList() {
   if (error) return <div>Error: {error.message}</div>
 
 
-
+  
   return (
     <>
       {users?.map((user) => (
