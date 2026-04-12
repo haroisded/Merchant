@@ -11,7 +11,6 @@ const Register = () => {
     const navigate = useNavigate();
 
 
-
     const { mutate } = useMutation({
       mutationFn: signUpAndCreateUser,
 
@@ -48,9 +47,7 @@ const Register = () => {
     <h1 className="text-xl font-bold">Log In</h1>
     <form onSubmit={handleSubmit}>
         <Input name="username" placeholder="Enter Name" label="Username" type="text" />
-        <Input name="email" placeholder="Enter your Email" label="Email" type="email"
-          value={session?.user?.email || ''}  // ← pre-filled from OAuth
-        />
+        <Input name="email" placeholder="Enter your Email" label="Email" type="email"/>
         <Input name="phone" placeholder="Enter your Phone Number" label="Phone Number" type="text" />
         <Input name="password" placeholder="Enter your Password" label="Password" type="password" />
         <button className="btn btn-primary rounded-full mt-5">Submit</button>

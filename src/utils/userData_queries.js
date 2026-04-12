@@ -1,7 +1,6 @@
 import supabase from './supabase';
 
-
-// Separate function for the Auth step
+// SEPARATE FUNCTION: Auth step
 async function signUpAuth({ email, password }) {
   const { data, error } = await supabase.auth.signUp({ email, password });
   if (error) throw new Error(error.message);
@@ -10,7 +9,7 @@ async function signUpAuth({ email, password }) {
 
 
 
-// Separate function for inserting the user profile
+// SEPARATE FUNCTION: inserting the user profile
 async function createUserProfile({ userId, email, username, phone }) {
   const { error } = await supabase
     .from("users")
@@ -25,7 +24,7 @@ async function createUserProfile({ userId, email, username, phone }) {
 
 
 
-// Orchestrator function
+// FUNCTION: SignUp and Create User
 async function signUpAndCreateUser({ email, password, username, phone }) {
   
   // Step 1: Sign up
@@ -42,6 +41,7 @@ async function signUpAndCreateUser({ email, password, username, phone }) {
 
 
 
+// FUNCTION: Handle Google Sign in 
 const handleGoogleSignIn = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -54,6 +54,7 @@ const handleGoogleSignIn = async () => {
 
 
 
+// FUNCTION: handleSignOut 
 const handleSignOut = async () => {
   const { error } = await supabase.auth.signOut()
   if (error) console.error('Sign out error:', error)
@@ -61,6 +62,7 @@ const handleSignOut = async () => {
 
 
 
+// FUNCTION: fetchUsers
 async function fetchUsers() {
   const { data, error } = await supabase
     .from("users")
@@ -72,6 +74,7 @@ async function fetchUsers() {
 
 
 
+// FUNCTION: deteUser
 async function deleteUser(userId) {
   const { error } = await supabase
     .from("users")

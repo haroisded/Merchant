@@ -22,17 +22,29 @@ const SessionHandler = () => {
             });
 
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            if (!mounted) return;
-            setSession(session);
-            setLoading(false);
-            if (_event === "SIGNED_OUT") navigate("/"); // ← only redirect on actual sign out
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+          if (!mounted) return;
+
+          if (event === "SIGNED_IN" && session?.user?.app_metadata?.provider === "google") {
+              // Store email temporarily in the supabase, then kill session
+              /*
+
+              SUPABASE CODE
+
+              */
+              supabase.auth.signOut();
+              return;
+          }
+
+          setSession(session);
+          setLoading(false);
+          if (event === "SIGNED_OUT") navigate("/");
         });
     
 
         return () => {
-            mounted = false;
-            subscription?.unsubscribe?.();
+          mounted = false;
+          subscription?.unsubscribe?.();
         };
     }, []);
 
