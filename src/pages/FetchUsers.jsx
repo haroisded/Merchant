@@ -1,10 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'  // ← add useQueryClient
-import { fetchUsers, deleteUser } from '@/utils/queries_supabase'
+import { fetchUsers, deleteUser } from '@/utils/userData_queries'
 
 
 export default function UsersList() {
+  
   const queryClient = useQueryClient()  // ← for invalidating cache
 
+
+  
   // Read users
   const { data: users, isLoading, error } = useQuery({
     queryKey: ['users'],
@@ -38,9 +41,9 @@ export default function UsersList() {
             </div>
           )}
           <p> - - - - - </p>
-          <p>Name: {user.name}</p>
-          <p>Age: {user.age}</p>
-          <p>Email: {user.country}</p>
+          <p>Name: {user.username}</p>
+          <p>Age: {user.phone}</p>
+          <p>Email: {user.email}</p>
           
           {/* Add delete button */}
           <button 

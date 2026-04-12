@@ -143,7 +143,7 @@ const InsertUsers = () => {
 
    <button type="submit">Submit</button>
 
-   <NavLink to="/">
+   <NavLink to="/Home">
 	  <button type="button">Back Home</button>
 	 </NavLink>
    </form>

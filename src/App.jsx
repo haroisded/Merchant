@@ -1,63 +1,28 @@
+import SessionHandler from './utils/SessionHandler';
 import { Routes, Route } from "react-router";
-import Home from "./pages/Home";
-import InsertUsers from "./pages/InsertUsers";
-import FetchUsers from "./pages/FetchUsers";
-import supabase from './utils/supabase';
-import { useActions, useSession } from './utils/dataStore'
-
+import { InsertUsers, FetchUsers, Home, NotFound } from "./pages";
+import Register from "./components/Login_Register/Register";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
+    return (
+        <>
+            <SessionHandler />
 
-	const { setSession, setUser } = useActions()
-	const session = useSession()
+        
+            <Routes>
+                <Route path="/" element={<Register />} />
 
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="Home" element={<Home />} />
+                    <Route path="InsertUsers" element={<InsertUsers />} />
+                    <Route path="FetchUsers" element={<FetchUsers />} />
+                </Route>
 
-
-	useEffect(() => {
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log("event", event);
-            console.log("session", session);
-            if (event === "SIGNED_OUT") {
-                setSession(null);
-                setUser(null);
-            } else if (session) {
-                setSession(session);
-            }
-        });
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, []);
-
-
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            const { data, error } = await supabase
-                .from("profiles")
-                .select()
-                .eq("id", session.user.id)
-                .single();
-            if (error) console.log(error);
-            if (data) setUser(data);
-        };
-        if (session) fetchProfile();
-    }, [session]);
-
-
-	return (
-	<Routes>
-
-		<Route path="/">
-			<Route index element={<Home />}/>
-			<Route path="InsertUsers" element={<InsertUsers />}/>
-			<Route path="FetchUsers" element={<FetchUsers />}/>
-		</Route>
-
-	</Routes>
-	);
+                <Route path="*" element={<NotFound />}/>
+            </Routes>
+        </>
+    );
 }
 
 export default App;
