@@ -7,7 +7,6 @@ const useDataStore = create((set) => ({
   currentUser: null,
   session: null,
   isLoading: true,
-  oauthEmail: null, 
 
 
   actions: {
