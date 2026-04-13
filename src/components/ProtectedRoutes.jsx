@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useSession, useIsLoading } from "@/utils/dataStore";
 
+
 const ProtectedRoutes = () => {
     const session = useSession();
     const isLoading = useIsLoading();
