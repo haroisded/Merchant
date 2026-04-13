@@ -1,12 +1,15 @@
 {
   "outputDirectory": "dist",
   "rewrites": [
-    {
-      "source": "/((?!assets/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ],
   "headers": [
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://merchant-cyan.vercel.app" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
