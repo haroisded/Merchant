@@ -7,6 +7,7 @@ const SessionHandler = () => {
     const { setSession, setLoading } = useActions();
     const navigate = useNavigate();
 
+
     useEffect(() => {
         let mounted = true;
 
@@ -22,8 +23,8 @@ const SessionHandler = () => {
             });
 
 
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            
           if (!mounted) return;
           setSession(session);
           setLoading(false);
@@ -31,6 +32,7 @@ const SessionHandler = () => {
         });
     
 
+        
         return () => {
           mounted = false;
           subscription?.unsubscribe?.();
