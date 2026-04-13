@@ -7,7 +7,6 @@ const SessionHandler = () => {
     const { setSession, setLoading } = useActions();
     const navigate = useNavigate();
 
-
     useEffect(() => {
         let mounted = true;
 
@@ -22,25 +21,20 @@ const SessionHandler = () => {
                 setLoading(false);
             });
 
-
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-          if (!mounted) return;
-          setSession(session);
-          setLoading(false);
-          if (event === "SIGNED_OUT") navigate("/");
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (!mounted) return;
+            setSession(session);
+            setLoading(false);
+            if (event === "SIGNED_OUT") navigate("/");
         });
-    
 
-        
         return () => {
-          mounted = false;
-          subscription?.unsubscribe?.();
+            mounted = false;
+            subscription?.unsubscribe?.();
         };
-    }, []);
+    }, [setSession, setLoading, navigate]);
 
     return null;
 };
-
 
 export default SessionHandler;
