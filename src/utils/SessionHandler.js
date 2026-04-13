@@ -27,6 +27,7 @@ const SessionHandler = () => {
             if (!mounted) return;
             setSession(session);
             setLoading(false);
+
             if (event === "SIGNED_OUT") navigate("/");
         });
 
