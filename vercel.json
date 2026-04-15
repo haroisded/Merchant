@@ -1,7 +1,10 @@
 {
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { 
+      "source": "/((?!assets/|src/|@vite|@react|@fs|node_modules/).*)", 
+      "destination": "/index.html" 
+    }
   ],
   "headers": [
     {
