@@ -1,12 +1,13 @@
 import { Navigate, Outlet, useLocation } from "react-router";
-import { useSession, useIsLoading } from "@/utils/dataStore";
+import { useSession, useIsAuthLoading } from "@/utils/authStore"
 
 const ProtectedRoutes = () => {
+
     const session = useSession();
-    const isLoading = useIsLoading();
+    const isAuthLoading = useIsAuthLoading();
     const location = useLocation();
 
-    if (isLoading) return null;
+    if (isAuthLoading) return null;
 
     if (!session) {
         // Only store if we're not already on the login page

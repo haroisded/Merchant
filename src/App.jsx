@@ -1,27 +1,34 @@
-import SessionHandler from './utils/SessionHandler';
+// App.js
+import { InsertUsers, FetchUsers, Home, NotFound, MyForm } from "./pages";
+import { useEffect } from 'react';
+import { useAuthActions } from './store/authStore';
 import { Routes, Route } from "react-router";
-import { InsertUsers, FetchUsers, Home, NotFound } from "./pages";
 import Register from "./components/Login_Register/Register";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
-    return (
-        <>
-            <SessionHandler />
+    const { init } = useAuthActions();
 
-        
-            <Routes>
-                <Route path="/" element={<Register />} />
+    useEffect(() => {
+        const cleanup = init();
+        return cleanup;
+    }, [init]);
 
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="Home" element={<Home />} />
-                    <Route path="InsertUsers" element={<InsertUsers />} />
-                    <Route path="FetchUsers" element={<FetchUsers />} />
-                </Route>
 
-                <Route path="*" element={<NotFound />}/>
-            </Routes>
-        </>
+    
+    return (  
+        <Routes>
+            <Route path="/" element={<Register />} />
+
+            <Route element={<ProtectedRoutes />}>
+                <Route path="Home" element={<Home />} />
+                <Route path="InsertUsers" element={<InsertUsers />} />
+                <Route path="FetchUsers" element={<FetchUsers />} />
+                <Route path="MyForm" element={<MyForm />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />}/>
+        </Routes>
     );
 }
 

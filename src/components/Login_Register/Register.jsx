@@ -1,5 +1,5 @@
 import { signUpAndCreateUser, handleGoogleSignIn, handleSignOut } from '@/utils/userData_queries'
-import { useActions, useSession } from '@/utils/dataStore'
+import { useDataActions } from '@/utils/dataStore'
 import { useMutation } from '@tanstack/react-query' 
 import { useNavigate } from "react-router"
 import Input from "../Input"
