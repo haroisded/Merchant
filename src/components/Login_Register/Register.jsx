@@ -1,12 +1,12 @@
 import { signUpAndCreateUser, handleGoogleSignIn, handleSignOut } from '@/utils/userData_queries'
-import { useDataActions } from '@/utils/dataStore'
+import { useAuthActions, useSession } from '@/utils/authStore'
 import { useMutation } from '@tanstack/react-query' 
 import { useNavigate } from "react-router"
 import Input from "../Input"
 
 
 const Register = () => {
-    const { setUser } = useActions()
+    const { setUser } = useAuthActions()
     const session = useSession()
     const navigate = useNavigate();
 
@@ -53,9 +53,11 @@ const Register = () => {
         <button className="btn btn-primary rounded-full mt-5">Submit</button>
     </form>
 
+
     <button onClick={handleGoogleSignIn} className="btn btn-outline rounded-full mt-3">
         Sign in with Google
     </button>
+
 
     {session && (
         <button onClick={handleSignOut} className="btn btn-error rounded-full mt-3">

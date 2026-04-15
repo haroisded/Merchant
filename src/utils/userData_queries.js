@@ -62,6 +62,20 @@ const handleSignOut = async () => {
 
 
 
+// FUNCTION: fetchUser
+async function fetchUser(userId) {
+  const { data, error } = await supabase
+    .from('users')
+    .select()
+    .eq('auth_user_id', userId)
+    .single();
+
+  if (error) throw new Error(error.message); 
+  return data;
+}
+
+
+
 // FUNCTION: fetchUsers
 async function fetchUsers() {
   const { data, error } = await supabase
@@ -85,4 +99,4 @@ async function deleteUser(userId) {
 };
 
 
-export { fetchUsers, deleteUser, signUpAndCreateUser, handleGoogleSignIn, handleSignOut };
+export { fetchUser, fetchUsers, deleteUser, signUpAndCreateUser, handleGoogleSignIn, handleSignOut };
