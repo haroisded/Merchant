@@ -1,12 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'  // ← add useQueryClient
+import { useQuery, useMutation } from '@tanstack/react-query' 
 import { fetchUsers, deleteUser } from '@/utils/userData_queries'
 
 
 export default function UsersList() {
   
-  const queryClient = useQueryClient()  // ← for invalidating cache
-
-
   
   // Read users
   const { data: users, isLoading, error } = useQuery({

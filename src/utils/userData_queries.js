@@ -1,9 +1,9 @@
 import supabase from './supabase';
 
-// SEPARATE FUNCTION: Auth step
+// SEPARATE FUNCTION: Auth Sign-Up
 async function signUpAuth({ email, password }) {
   const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) throw new Error(error.message);
+  if (error) throw error;
   return data;
 }
 
@@ -12,22 +12,22 @@ async function signUpAuth({ email, password }) {
 // SEPARATE FUNCTION: inserting the user profile
 async function createUserProfile({ userId, email, username, phone }) {
   const { error } = await supabase
-    .from("users")
+    .from("profiles")
     .insert({
       auth_user_id: userId,
       email,
       username,
       phone,
     });
-  if (error) throw new Error(error.message);
+  if (error) throw error;
 }
 
 
 
-// FUNCTION: SignUp and Create User
-async function signUpAndCreateUser({ email, password, username, phone }) {
+// FUNCTION: SignUp and Create Profile
+async function signUpAndCreateProfile({ email, password, username, phone }) {
   
-  // Step 1: Sign up
+  // Step 1: Sign-Up
   const authData = await signUpAuth({ email, password });
   const userId = authData.user?.id;
   if (!userId) throw new Error("User ID not found after signup.");
@@ -35,8 +35,40 @@ async function signUpAndCreateUser({ email, password, username, phone }) {
   // Step 2: Create profile
   await createUserProfile({ userId, email, username, phone });
 
-  // Return auth data for the onSuccess handler
+   // Step 3: RefreshSession to apply Role Updates
+  await supabase.auth.refreshSession() 
   return authData;
+}
+
+
+
+// FUNCTION: Fill Up Profile
+async function fillUpProfile({ userId, email, username, phone }) {
+    const { error } = await supabase
+        .from("profiles")
+        .insert({
+            auth_user_id: userId,
+            email,
+            username,
+            phone,
+        });
+    if (error) throw error;
+
+    // Clear the unregistered claim
+    await supabase.rpc('clear_unregistered_role', { auth_user_uuid: userId })
+
+    // Refresh session so new JWT reflects cleared role
+    await supabase.auth.refreshSession()
+}
+
+
+
+// FUNCTION: Simple Sign-in
+async function signInWithEmail({ email, password }) {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    
+    return data
 }
 
 
@@ -62,27 +94,24 @@ const handleSignOut = async () => {
 
 
 
-// FUNCTION: fetchUser
-async function fetchUser(userId) {
-  const { data, error } = await supabase
-    .from('users')
-    .select()
-    .eq('auth_user_id', userId)
-    .single();
-
-  if (error) throw new Error(error.message); 
-  return data;
-}
+// FUNCTION: fetchProfile
+async function fetchProfile(userId) {
+    const { data, error } = await supabase
+      .rpc('register_checker', { auth_user_uuid: userId })
+        
+    if (error) throw error;
+    return data;
+};
 
 
 
 // FUNCTION: fetchUsers
 async function fetchUsers() {
   const { data, error } = await supabase
-    .from("users")
+    .from("profiles")
     .select('*');
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
   return data;
 };
 
@@ -91,12 +120,21 @@ async function fetchUsers() {
 // FUNCTION: deteUser
 async function deleteUser(userId) {
   const { error } = await supabase
-    .from("users")
+    .from("profiles")
     .delete()
     .eq("id", userId);
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
 };
 
 
-export { fetchUser, fetchUsers, deleteUser, signUpAndCreateUser, handleGoogleSignIn, handleSignOut };
+export { 
+  fetchProfile, 
+  fetchUsers, 
+  deleteUser, 
+  signUpAndCreateProfile, 
+  handleGoogleSignIn, 
+  handleSignOut, 
+  fillUpProfile,
+  signInWithEmail,
+};

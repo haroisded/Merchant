@@ -1,55 +1,95 @@
-// App.js
 import { InsertUsers, FetchUsers, Home, NotFound, MyForm } from "./pages";
-import { useAuthActions, useSession, useUser } from "./utils/authStore";
+import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
+import { Register, FillUp_Profile, Login } from "./components/authentication";
+import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
 import { Routes, Route } from "react-router";
+import { fetchProfile } from "./utils/userData_queries";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from 'react';
-import Register from "./components/Login_Register/Register";
-import ProtectedRoutes from "./components/ProtectedRoutes";
+import supabase from './utils/supabase';
+
 
 function App() {
-    const { setSession, setUser } = useAuthActions()
-    const seeTheSession = useSession()
-    const seeTheUser = useUser()
+    const { setSession, setProfile, setAuthLoading, setProfileLoading } = useAuthActions();
+    const this_session = useSession();
+    const this_profile = useProfile();
+    const this_mutation = useIsMutating();  
+    console.log("session and user", this_session, this_profile);
 
 
+    // Session Event Listener
     useEffect(() => {
-    let lastSession = null; // track previous session outside callback
-
-    console.log
-
-
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-
-        // Only act if the session actually changed
-        if (session?.user?.id !== lastSession?.user?.id) {
-        lastSession = session;
+        const { data: { subscription }, } = supabase.auth.onAuthStateChange((event, session) => {
         
-            if (event === "SIGNED_OUT") {
-                setSession(null);
-                setUser(null);
-            } else if (session) { setSession(session); }
-        
+        console.log("event", event);
+        if (event === "INITIAL_SESSION"){ 
+            setAuthLoading(false) 
+            if(!session) setProfileLoading(false) 
         }
-    });
+        if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED"){ setSession(session) }
+        if (event === "SIGNED_OUT"){ setSession(null); setProfile(null); }
 
-    return () => subscription.unsubscribe();
+        });
+        return () => { subscription.unsubscribe(); };
     }, []);
 
 
     
-    return (  
-        <Routes>
-            <Route path="/" element={<Register />} />
+    // Fetch User Handler
+    const { data: fetchProfileData, isLoading, error: fetchProfileError } = useQuery({
+      queryKey: ['user', this_session?.user?.id],
+      queryFn: () => fetchProfile(this_session?.user?.id),
 
-            <Route element={<ProtectedRoutes />}>
-                <Route path="Home" element={<Home />} />
-                <Route path="InsertUsers" element={<InsertUsers />} />
-                <Route path="FetchUsers" element={<FetchUsers />} />
-                <Route path="MyForm" element={<MyForm />} />
+      enabled: !!this_session?.user?.id && !this_mutation,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+      refetchInterval: false,
+      refetchIntervalInBackground: false,
+      retry: 0,
+      retryOnMount: false,
+    })
+
+    if(isLoading){ console.log("Fetching User...") }
+
+
+
+    // Unregister Handler
+    useEffect(() => {
+
+        if(fetchProfileData === undefined && !fetchProfileError) return;
+
+        if(fetchProfileData) setProfile(fetchProfileData)
+        else if(fetchProfileData === null){ setProfile(null) }
+
+        if(fetchProfileError) console.log("Error Fetching Fails")
+
+        setProfileLoading(false)  
+
+    }, [fetchProfileData, fetchProfileError])
+
+
+
+    return (
+        <Routes>
+            {/* Authenticated */}
+            <Route element={<PublicRouteGuard />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/Register" element={<Register />} />
             </Route>
 
-            <Route path="*" element={<NotFound />}/>
+
+            {/* Protected routes */}
+            <Route element={<SessionRouteGuard />}>
+                <Route path="/Home" element={<Home />} />
+                <Route path="/InsertUsers" element={<InsertUsers />} />
+                <Route path="/FetchUsers" element={<FetchUsers />} />
+                <Route path="/MyForm" element={<MyForm />} />
+                <Route path="/FillUp_Profile" element={<FillUp_Profile />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }

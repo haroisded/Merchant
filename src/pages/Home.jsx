@@ -1,4 +1,5 @@
 import { NavLink } from "react-router"
+import { handleSignOut } from "@/utils/userData_queries"
 
 
 const Home = () => {
@@ -14,6 +15,10 @@ const Home = () => {
 	<NavLink to="/InsertUsers">
 	<button >Insert Users</button>
 	</NavLink>
+
+	<button onClick={handleSignOut} className="btn btn-error rounded-full mt-3">
+					Sign Out
+	</button>
 	</>
 	)
 }
