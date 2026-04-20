@@ -1,10 +1,10 @@
-import { InsertUsers, FetchUsers, Home, NotFound, MyForm } from "./pages";
-import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
-import { Register, FillUp_Profile, Login } from "./components/authentication";
+import { useAuthActions, useSession, useProfile, useIsMutating, useIsAuthLoading, useIsProfileLoading } from "./stores/authStore";
+import { InsertUsers, FetchUsers, Home, NotFound, MyForm, AuthPage, FillUpPage } from "./pages";
 import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
-import { Routes, Route } from "react-router";
 import { fetchProfile } from "./utils/userData_queries";
 import { useQuery } from "@tanstack/react-query";
+import { Routes, Route } from "react-router";
+import { GlobalLoader } from "./components";
 import { useEffect } from 'react';
 import supabase from './utils/supabase';
 
@@ -14,6 +14,8 @@ function App() {
     const this_session = useSession();
     const this_profile = useProfile();
     const this_mutation = useIsMutating();  
+    const isAuthLoading = useIsAuthLoading();
+    const isProfileLoading = useIsProfileLoading();
     console.log("session and user", this_session, this_profile);
 
 
@@ -71,12 +73,17 @@ function App() {
 
 
     return (
+        <>
+        {/* Global Loading Overlay */}
+        <GlobalLoader /> 
+
+
         <Routes>
             {/* Public Routes */}
             <Route element={<PublicRouteGuard />}>
-                <Route path="/" element={<Login />} />
-                <Route path="/Register" element={<Register />} />
+                <Route path="/" element={<AuthPage />} />
             </Route>
+
 
 
             {/* Authenticated Routes */}
@@ -85,11 +92,12 @@ function App() {
                 <Route path="/InsertUsers" element={<InsertUsers />} />
                 <Route path="/FetchUsers" element={<FetchUsers />} />
                 <Route path="/MyForm" element={<MyForm />} />
-                <Route path="/FillUp_Profile" element={<FillUp_Profile />} />
+                <Route path="/FillUpPage" element={<FillUpPage />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />
         </Routes>
+        </>
     );
 }
 

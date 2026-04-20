@@ -1,2 +1,38 @@
 @import "tailwindcss";
+
+@theme {
+  --color-teal-800: #014b54;
+  --color-teal-600: #008b99;
+  --color-formBg: #e8ecef;
+  --color-mainBg: #fcfcfc;
+}
+
 @plugin "daisyui";
+
+/* Global font and base adjustments */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+  body {
+    @apply bg-mainBg text-gray-800;
+  }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+    @apply bg-white text-black border border-gray-300;
+  }
+  input, button {
+    @apply text-gray-800;
+  }
+}
+
+/* Force correct colors on autofill, suggestions, and pasted content */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  background-color: white !important;
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

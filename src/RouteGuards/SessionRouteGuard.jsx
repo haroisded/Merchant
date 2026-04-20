@@ -11,7 +11,7 @@ function SessionRouteGuard() {
     const role = this_session?.user?.app_metadata?.role
     const previousPath = localStorage.getItem('previousPath') || '/Home'
     const claimRoutes = {
-        "/FillUp_Profile": "unregistered",
+        "/FillUpPage": "unregistered",
         "/AdminPanel": "admin",
     }
     const requiredClaim = claimRoutes[location.pathname]
@@ -24,15 +24,15 @@ function SessionRouteGuard() {
     if(!!this_session?.user?.id === false){ return <Navigate to="/" replace /> }
 
     // Has session but no profile → fill up form
-    if(this_profile === null && location.pathname !== "/FillUp_Profile")
-    { return <Navigate to="/FillUp_Profile" replace /> }
+    if(this_profile === null && location.pathname !== "/FillUpPage")
+    { return <Navigate to="/FillUpPage" replace /> }
 
     // Required Claim
     if(this_profile && requiredClaim && role !== requiredClaim){ return <Navigate to={previousPath} replace /> }
 
 
-    // Only store if not on /FillUp_Profile
-    if(location.pathname !== "/FillUp_Profile"){ localStorage.setItem('previousPath', location.pathname) }
+    // Only store if not on /FillUpPage
+    if(location.pathname !== "/FillUpPage"){ localStorage.setItem('previousPath', location.pathname) }
     return <Outlet />
 }
 

@@ -1,5 +1,5 @@
 import supabase from "@/utils/supabase"
-import Input from "@/utils/Input";
+import { Input } from "@/components";
 import { NavLink } from "react-router"
 import Compressor from 'compressorjs';
 

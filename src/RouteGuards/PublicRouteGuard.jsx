@@ -15,8 +15,8 @@ function PublicRouteGuard() {
     if(!this_session?.user?.id) return <Outlet />
 
      // Authenticated Empty Profiles Redirect
-    if( !!this_session?.user?.id === true && this_profile === null && location.pathname !== "/FillUp_Profile" )
-    { return <Navigate to="/FillUp_Profile" replace /> }
+    if( !!this_session?.user?.id === true && this_profile === null && location.pathname !== "/FillUpPage" )
+    { return <Navigate to="/FillUpPage" replace /> }
 
     // Not Allowing To Touch Register
     return <Navigate to="/Home" replace />
