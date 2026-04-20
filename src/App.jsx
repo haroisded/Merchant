@@ -48,14 +48,13 @@ function App() {
       refetchInterval: false,
       refetchIntervalInBackground: false,
       retry: 0,
-      retryOnMount: false,
     })
 
     if(isLoading){ console.log("Fetching User...") }
 
 
 
-    // Unregister Handler
+    // User Profile Handler
     useEffect(() => {
 
         if(fetchProfileData === undefined && !fetchProfileError) return;
@@ -73,14 +72,14 @@ function App() {
 
     return (
         <Routes>
-            {/* Authenticated */}
+            {/* Public Routes */}
             <Route element={<PublicRouteGuard />}>
                 <Route path="/" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
             </Route>
 
 
-            {/* Protected routes */}
+            {/* Authenticated Routes */}
             <Route element={<SessionRouteGuard />}>
                 <Route path="/Home" element={<Home />} />
                 <Route path="/InsertUsers" element={<InsertUsers />} />

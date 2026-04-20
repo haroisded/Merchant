@@ -96,11 +96,13 @@ const handleSignOut = async () => {
 
 // FUNCTION: fetchProfile
 async function fetchProfile(userId) {
-    const { data, error } = await supabase
+  const { data, error } = await supabase
       .rpc('register_checker', { auth_user_uuid: userId })
-        
-    if (error) throw error;
-    return data;
+  if (error) throw error;
+
+  if(data === null) await supabase.auth.refreshSession()  // ← add back
+
+  return data;
 };
 
 
