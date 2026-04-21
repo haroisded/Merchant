@@ -1,4 +1,4 @@
-import { useAuthActions, useSession, useProfile, useIsMutating, useIsAuthLoading, useIsProfileLoading } from "./stores/authStore";
+import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
 import { InsertUsers, FetchUsers, Home, NotFound, MyForm, AuthPage, FillUpPage } from "./pages";
 import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
 import { fetchProfile } from "./utils/userData_queries";
@@ -14,8 +14,6 @@ function App() {
     const this_session = useSession();
     const this_profile = useProfile();
     const this_mutation = useIsMutating();  
-    const isAuthLoading = useIsAuthLoading();
-    const isProfileLoading = useIsProfileLoading();
     console.log("session and user", this_session, this_profile);
 
 
@@ -25,7 +23,7 @@ function App() {
         
         console.log("event", event);
         if (event === "INITIAL_SESSION"){ 
-            setAuthLoading(false) 
+            setAuthLoading(false)  
             if(!session) setProfileLoading(false) 
         }
         if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED"){ setSession(session) }

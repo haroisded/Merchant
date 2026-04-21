@@ -25,6 +25,8 @@ async function createUserProfile({ userId, email, username, phone }) {
 
 
 // FUNCTION: SignUp and Create Profile
+// 1st Phase: Creates Authenticated Profile
+// 2nd Phase: Creates User Profile
 async function signUpAndCreateProfile({ email, password, username, phone }) {
   
   // Step 1: Sign-Up
@@ -97,7 +99,7 @@ const handleSignOut = async () => {
 // FUNCTION: fetchProfile
 async function fetchProfile(userId) {
   const { data, error } = await supabase
-      .rpc('register_checker', { auth_user_uuid: userId })
+      .rpc('profile_checker', { auth_user_uuid: userId })
   if (error) throw error;
 
   if(data === null) await supabase.auth.refreshSession()  // ← add back

@@ -18,7 +18,7 @@ function SessionRouteGuard() {
 
 
     // Route Logic Canceller
-    if(isAuthLoading || isProfileLoading){ return null }
+    if( isAuthLoading || isProfileLoading ){ return null }
 
     // Redirect Guards
     if(!!this_session?.user?.id === false){ return <Navigate to="/" replace /> }
