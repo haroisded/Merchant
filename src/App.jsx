@@ -1,5 +1,5 @@
 import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
-import { InsertUsers, FetchUsers, Home, NotFound, MyForm, AuthPage, FillUpPage } from "./pages";
+import { InsertUsers, FetchUsers, Home, NotFound, ProfilePage, AuthPage, FillUpPage } from "./pages";
 import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
 import { fetchProfile } from "./utils/userData_queries";
 import { useQuery } from "@tanstack/react-query";
@@ -36,7 +36,7 @@ function App() {
 
     
     // Fetch User Handler
-    const { data: fetchProfileData, isLoading, error: fetchProfileError } = useQuery({
+    const { data: fetchProfileData, error: fetchProfileError, isLoading, isFetching } = useQuery({
       queryKey: ['user', this_session?.user?.id],
       queryFn: () => fetchProfile(this_session?.user?.id),
 
@@ -50,7 +50,8 @@ function App() {
       retry: 0,
     })
 
-    if(isLoading){ console.log("Fetching User...") }
+    if(isLoading){ console.log("Is Loading...") }
+    if(isFetching){ console.log("Is Fetching...") }
 
 
 
@@ -87,9 +88,10 @@ function App() {
             {/* Authenticated Routes */}
             <Route element={<SessionRouteGuard />}>
                 <Route path="/Home" element={<Home />} />
+                <Route path="/ProfilePage" element={<ProfilePage />} />
                 <Route path="/InsertUsers" element={<InsertUsers />} />
                 <Route path="/FetchUsers" element={<FetchUsers />} />
-                <Route path="/MyForm" element={<MyForm />} />
+
                 <Route path="/FillUpPage" element={<FillUpPage />} />
             </Route>
 

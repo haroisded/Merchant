@@ -1,27 +1,25 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
 
 @theme {
-  --color-teal-800: #014b54;
-  --color-teal-600: #008b99;
-  --color-formBg: #e8ecef;
-  --color-mainBg: #fcfcfc;
+  --color-brand-light: #fff9f9;
+  --color-brand-accent: #ffd6d7;
+  --color-brand-primary: #ff5a6b;
+  --color-brand-secondary: #008f9b;
+  --color-brand-dark: #004b55;
+
+  --color-status-active-bg: #ABFDD3;
+  --color-status-active-text: #128060;
+  --color-status-draft-bg: #E5E7EB;
+  --color-status-draft-text: #4B5563; 
 }
 
-@plugin "daisyui";
 
 /* Global font and base adjustments */
 @layer base {
   html {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  }
-  body {
-    @apply bg-mainBg text-gray-800;
-  }
-  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
-    @apply bg-white text-black border border-gray-300;
-  }
-  input, button {
-    @apply text-gray-800;
   }
 }
 

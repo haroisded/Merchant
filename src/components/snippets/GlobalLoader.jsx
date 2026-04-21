@@ -15,8 +15,8 @@ const GlobalLoader = () => {
     <div className="fixed inset-0 bg-white flex flex-col justify-center items-center z-50">
       <LoadingSpinner size={80} />
       <p className="mt-4 text-teal-800 font-medium text-sm">
-        {isAuthLoading && 'Checking session...'}
-        {isProfileLoading && 'Loading your profile...'}
+        {isAuthLoading && 'Checking Session...'}
+        {isProfileLoading && 'Loading...'}
         {isGlobalLoading && 'Please wait...'}
       </p>
     </div>

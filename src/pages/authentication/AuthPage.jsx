@@ -1,4 +1,3 @@
-// src/components/authentication/AuthPage.jsx
 import { FaGoogle } from 'react-icons/fa';
 import { handleGoogleSignIn } from '@/utils/userData_queries';
 import { StyledLogin, StyledRegister } from '@/components';

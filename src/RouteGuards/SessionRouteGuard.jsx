@@ -1,6 +1,5 @@
-import { useSession, useProfile, useIsAuthLoading } from '@/stores/authStore';
+import { useSession, useProfile, useIsAuthLoading, useIsProfileLoading } from '@/stores/authStore';
 import { Navigate, Outlet, useLocation } from 'react-router';
-import { useIsProfileLoading } from '../stores/authStore';
 
 function SessionRouteGuard() {
     const location = useLocation()
