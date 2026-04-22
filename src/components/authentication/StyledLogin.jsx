@@ -28,6 +28,7 @@ const StyledLogin = () => {
     <form onSubmit={handleSubmit}>
       <Input
         label="Email Address"
+        autoComplete="email"  // ← add
         type="email"
         name="email"
         placeholder="Enter your email"
@@ -37,6 +38,7 @@ const StyledLogin = () => {
 
       <Input
         label="Password"
+        autoComplete="current-password"
         type="password"
         name="password"
         placeholder="Enter your password"

@@ -1,10 +1,10 @@
 import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
-import { InsertUsers, FetchUsers, Home, NotFound, ProfilePage, AuthPage, FillUpPage } from "./pages";
+import { InsertUsers, FetchUsers, Home, NotFound, ProfilePage, AuthPage, FillUpPage, CreateApplicationPage } from "./pages";
 import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
+import { GlobalLoader } from "./components";
 import { fetchProfile } from "./utils/userData_queries";
 import { useQuery } from "@tanstack/react-query";
 import { Routes, Route } from "react-router";
-import { GlobalLoader } from "./components";
 import { useEffect } from 'react';
 import supabase from './utils/supabase';
 
@@ -76,7 +76,6 @@ function App() {
         {/* Global Loading Overlay */}
         <GlobalLoader /> 
 
-
         <Routes>
             {/* Public Routes */}
             <Route element={<PublicRouteGuard />}>
@@ -88,6 +87,7 @@ function App() {
             {/* Authenticated Routes */}
             <Route element={<SessionRouteGuard />}>
                 <Route path="/Home" element={<Home />} />
+                <Route path="/CreateApplicationPage" element={<CreateApplicationPage />} />
                 <Route path="/ProfilePage" element={<ProfilePage />} />
                 <Route path="/InsertUsers" element={<InsertUsers />} />
                 <Route path="/FetchUsers" element={<FetchUsers />} />

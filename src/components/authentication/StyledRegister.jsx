@@ -29,6 +29,7 @@ const StyledRegister = () => {
     <form onSubmit={handleSubmit}>
       <Input
         label="Username"
+        autoComplete="username"  
         type="text"
         name="username"
         placeholder="Enter your username"
@@ -38,6 +39,7 @@ const StyledRegister = () => {
 
       <Input
         label="Email Address"
+        autoComplete="email"  // ← add
         type="email"
         name="email"
         placeholder="Enter your email"
@@ -47,6 +49,7 @@ const StyledRegister = () => {
 
       <Input
         label="Phone Number"
+        autoComplete="tel"
         type="tel"
         name="phone"
         placeholder="Enter your phone number"
@@ -56,6 +59,7 @@ const StyledRegister = () => {
 
       <Input
         label="Password"
+        autoComplete="new-password"
         type="password"
         name="password"
         placeholder="Create a password"

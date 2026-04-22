@@ -18,3 +18,7 @@ export { default as StyledRegister } from "./authentication/StyledRegister"
 
 
 // Application
+
+
+// Modals
+export { default as ProfileModal } from "./Modals/ProfileModal"

@@ -1,11 +1,19 @@
-import { HomeHeader, HomePagination, FilterApps, AppCard } from '@/components';
+import { HomeHeader, HomePagination, FilterApps, AppCard, ProfileModal } from '@/components';
 import { Links } from '@/components';
 import { FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleCreateClick = () => {
+    navigate('/CreateApplicationPage');
+  };
+
   return (
     <div className="bg-brand-light min-h-screen text-brand-dark">
       <HomeHeader />
+      <ProfileModal />
       <main className="max-w-7xl mx-auto px-12 py-12">
         <div className="mb-12">
           <h1 className="text-4xl font-black text-brand-dark tracking-tight">Your Merchant Applications</h1>
@@ -16,9 +24,11 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {/* App Creation Card */}
-          <Links to="PreCreation/step1">
-            <div className="bg-white rounded-[40px] overflow-hidden border-2 border-dashed border-brand-secondary/40 hover:border-brand-secondary cursor-pointer transition-all group">
+          {/* Start of App Creation Card */}
+            <div 
+              onClick={handleCreateClick}
+              className="bg-white rounded-[40px] overflow-hidden border-2 border-dashed border-brand-secondary/40 hover:border-brand-secondary cursor-pointer transition-all group"
+            >
               
               <div className="h-48 bg-brand-secondary/5 flex items-center justify-center">
                 <div className="w-14 h-14 bg-brand-secondary rounded-full flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform">
@@ -39,14 +49,17 @@ const Home = () => {
 
               </div>
             </div>
-          </Links>
+          {/* End of App Creation Card */}
 
 
+
+          {/* App Display Cards */}
           <AppCard />
           <AppCard />
           <AppCard />
           <AppCard />
           <AppCard />
+          {/* End of App Creation Card */}
 		  
         </div>
       </main>
