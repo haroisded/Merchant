@@ -1,11 +1,21 @@
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { set_app_editor_role } from "@/utils/application_queries"
+import { useSession } from "@/stores/authStore"
+
 
 const AppCard = ({ app }) => {
   if (!app) return null;
+  const this_session = useSession();
+
 
   return (
     <>
-      <div className="bg-white rounded-[40px] overflow-hidden border-2 border-transparent hover:border-brand-secondary cursor-pointer transition-all">
+      <div 
+        onClick={ () => set_app_editor_role(this_session?.user?.id) }
+        className="bg-white rounded-[40px] overflow-hidden border-2 border-transparent hover:border-brand-secondary cursor-pointer transition-all"
+      >
+        
+
         <div
           className="h-48 bg-cover bg-center relative bg-gradient-to-br from-brand-secondary/20 to-brand-secondary/5 flex items-center justify-center"
           // style={{ backgroundImage: `url(${app.image_url})` }} // ← add image_url to DB later

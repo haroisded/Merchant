@@ -2,6 +2,7 @@ import { useIsAppMutating, useApplications, useAppActions } from "@/stores/appli
 import { useSession, useProfile } from "@/stores/authStore";
 import { HomeHeader, HomePagination, FilterApps, AppCard, ProfileModal, AppCardLoader } from '@/components';
 import { set_creator_role, fetchUserApplications } from "@/utils/application_queries"
+import { useUIActions } from "@/stores/uiStore"; // ← for global loader
 import { useQuery } from "@tanstack/react-query";
 import { FaPlus } from 'react-icons/fa';
 import { useEffect } from 'react';
@@ -10,6 +11,7 @@ import { useEffect } from 'react';
 const Home = () => {
 
   const { setApplications } = useAppActions();
+  const { setGlobalLoading } = useUIActions(); // ← pull the setter
   const this_AppMutation = useIsAppMutating(); 
   const this_Applications = useApplications();
 
@@ -71,9 +73,10 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
+
           {/* Create New App Card */}
           <div 
-            onClick={ () => set_creator_role(this_session?.user?.id) }
+            onClick={ () => { setGlobalLoading(true); set_creator_role(this_session?.user?.id); } } // ← overlay fires first, clears on CreateApplicationPage mount
             className="bg-white rounded-[40px] overflow-hidden border-2 border-dashed border-brand-secondary/40 hover:border-brand-secondary cursor-pointer transition-all group"
           >
             <div className="h-48 bg-brand-secondary/5 flex items-center justify-center">
@@ -91,6 +94,7 @@ const Home = () => {
               </div>
             </div>
           </div>
+          {/* End of Create New App Card */}
 
 
 

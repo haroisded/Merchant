@@ -1,3 +1,4 @@
+import { LoadingSpinner } from '@/components';
 import { useState } from "react"
 
 
@@ -108,7 +109,7 @@ const CreationStep2 = ({ formData, setFormData, onBack, onSubmit, isSubmitting }
                 disabled={isSubmitting || !formData.admin_name} // ← require admin name
                 className="bg-brand-secondary text-white px-4 md:px-10 py-2 md:py-3 rounded-lg md:rounded-2xl font-black text-xs md:text-lg flex items-center justify-center hover:bg-brand-dark transition-all shadow-lg shadow-brand-secondary/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Creating...' : 'Create'}
+                {isSubmitting ? <LoadingSpinner size={22} /> : 'Create'}
               </button>
             </div>
 

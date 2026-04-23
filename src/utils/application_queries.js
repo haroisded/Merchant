@@ -1,7 +1,5 @@
 import supabase from './supabase';
 
-
-
 // FUNCTION: Set creator role 
 async function set_creator_role(userId) {
     const { data, error } = await supabase.rpc('set_creator_role_rpc', { auth_user_uuid: userId })
@@ -12,6 +10,16 @@ async function set_creator_role(userId) {
     return data
 }
 
+
+// FUNCTION: Set app editor role 
+async function set_app_editor_role(userId) {
+    const { data, error } = await supabase.rpc('set_app_editor_role_rpc', { auth_user_uuid: userId })
+    if (error) throw error
+
+    await supabase.auth.refreshSession()
+
+    return data
+}
 
 
 // FUNCTION: Fetch authenticated user's applications with related profiles
@@ -29,7 +37,6 @@ async function fetchUserApplications(userId) {
 
   return data;
 }
-
 
 
 // FUNCTION: Create a new application
@@ -62,6 +69,7 @@ async function createApplication({
 
 export { 
   set_creator_role,
+  set_app_editor_role,
   fetchUserApplications,
   createApplication,
 }

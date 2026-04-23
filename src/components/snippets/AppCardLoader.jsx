@@ -24,7 +24,3 @@ const AppCardLoader = () => {
 };
 
 export default AppCardLoader;
-
-// ↑ Add this to tailwind.config.js → theme.extend:
-// animation: { shimmer: 'shimmer 1.4s linear infinite' },
-// keyframes: { shimmer: { to: { backgroundPositionX: '-200%' } } }

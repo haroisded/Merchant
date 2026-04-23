@@ -1,19 +1,23 @@
 import CreationStep1 from '@/components/ModalSnippets/CreationStep1';
 import CreationStep2 from '@/components/ModalSnippets/CreationStep2';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createApplication } from '@/utils/application_queries'; // ← your export
+import { createApplication } from '@/utils/application_queries';
 import { useAppActions } from '@/stores/applicationStore';
 import { clear_role_key } from '@/utils/userData_queries';
 import { usePageSwitch } from '@/stores/applicationStore';
 import { useSession, useProfile } from '@/stores/authStore';
-import { useState } from 'react';
+import { useUIActions } from '@/stores/uiStore'; // ← for clearing global loader
+import { useState, useEffect } from 'react';
 
 const CreateApplicationPage = () => {
   const this_profile = useProfile();
   const session = useSession();
   const { setIsAppMutating, setPageSwitch } = useAppActions();
+  const { setGlobalLoading } = useUIActions();
   const pageSwitch = usePageSwitch();
   const queryClient = useQueryClient();
+
+  useEffect(() => { setGlobalLoading(false); }, []); // ← card set it true; we're here now, clear it
 
   // ← Form state lives here
   const [formData, setFormData] = useState({

@@ -22,8 +22,9 @@ const ProfileViewModal = ({ onClose }) => {
   const handleEdit = () => { openModal('editProfile'); };
 
   const signOut_clearCache = () => {
-    queryClient.removeQueries({ queryKey: ['user', this_session?.user?.id] });
-    handleSignOut()
+      queryClient.removeQueries({ queryKey: ['user', this_session?.user?.id] });
+      localStorage.removeItem('previousPath');  // ← wipe stale path before signing out
+      handleSignOut();
   }
 
   return (

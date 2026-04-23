@@ -1,9 +1,11 @@
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { LoadingSpinner } from '@/components';
 import { useState } from 'react';
 
 const CreationStep1 = ({ formData, setFormData, onNext, clear_role_key, this_session }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showSecret, setShowSecret] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
 
   
   const handleInputChange = (field, value) => {
@@ -17,6 +19,7 @@ const CreationStep1 = ({ formData, setFormData, onNext, clear_role_key, this_ses
 
 
   const handleCancel = async () => {
+    setIsCanceling(true); // ← lock button while role clears
     try {
       if (clear_role_key && this_session?.user?.id) {
         await clear_role_key(this_session.user.id);
@@ -209,9 +212,10 @@ const CreationStep1 = ({ formData, setFormData, onNext, clear_role_key, this_ses
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex items-center justify-center text-white bg-brand-primary px-4 md:px-10 py-2 md:py-3 rounded-lg md:rounded-2xl font-black text-xs md:text-lg hover:opacity-90 transition-all"
+                  disabled={isCanceling} // ← prevent double-click
+                  className="flex items-center justify-center text-white bg-brand-primary px-4 md:px-10 py-2 md:py-3 rounded-lg md:rounded-2xl font-black text-xs md:text-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Cancel
+                  {isCanceling ? <LoadingSpinner size={22} /> : 'Cancel'}
                 </button>
 
                 <button
