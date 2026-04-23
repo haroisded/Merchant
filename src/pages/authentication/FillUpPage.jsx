@@ -5,15 +5,15 @@ import { Input, LoadingSpinner } from '@/components';
 import { FaUser, FaPhoneAlt } from 'react-icons/fa';
 
 const FillUpPage = () => {
-  const { setIsMutating } = useAuthActions();
+  const { setIsProfileMutating } = useAuthActions();
   const this_session = useSession();
   const queryClient = useQueryClient();
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: fillUpProfile,
-    onMutate: () => setIsMutating(true),
+    onMutate: () => setIsProfileMutating(true),
     onSettled: () => {
-      setIsMutating(false);
+      setIsProfileMutating(false);
       queryClient.invalidateQueries({ queryKey: ['user', this_session?.user?.id] });
     },
     onError: (err) => console.error('FillUp error:', err.message),

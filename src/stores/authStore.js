@@ -7,7 +7,8 @@ const useAuthStore = create((set) => ({
   session: null,
   isAuthLoading: true,
   isProfileLoading: true,
-  isMutating: false,
+  isProfileMutating: false,
+
 
   actions: {
     setProfile: (profile) => set({ profile: profile }),
@@ -20,12 +21,12 @@ const useAuthStore = create((set) => ({
       : { session } // new passed session state
     ),
 
+    setIsProfileMutating: (isProfileMutating) => set({ isProfileMutating: !!isProfileMutating }),
+    
     setAuthLoading: (isAuthLoading) => set({ isAuthLoading: !!isAuthLoading }),
-
+    
     setProfileLoading: (isProfileLoading) => set({ isProfileLoading: !!isProfileLoading }),
-
-    setIsMutating: (isMutating) => set({ isMutating: !!isMutating }),
-   }
+    }
   })
   );
 
@@ -37,6 +38,6 @@ const useAuthStore = create((set) => ({
   export const useProfile = () => useAuthStore((state) => state.profile);
   export const useProfileVisibility = () => useAuthStore((state) => state.profileVisibility);
   export const useSession = () => useAuthStore((state) => state.session);
-  export const useIsMutating = () => useAuthStore((state) => state.isMutating);
+  export const useIsProfileMutating = () => useAuthStore((state) => state.isProfileMutating);
   export const useIsAuthLoading = () => useAuthStore((state) => state.isAuthLoading);
   export const useIsProfileLoading = () => useAuthStore((state) => state.isProfileLoading);

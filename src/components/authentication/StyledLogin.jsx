@@ -6,12 +6,12 @@ import { useAuthActions } from '@/stores/authStore';
 import { useMutation } from '@tanstack/react-query';
 
 const StyledLogin = () => {
-  const { setIsMutating } = useAuthActions();
+  const { setIsProfileMutating } = useAuthActions();
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: signInWithEmail,
-    onMutate: () => setIsMutating(true),
-    onSettled: () => setIsMutating(false),
+    onMutate: () => setIsProfileMutating(true),
+    onSettled: () => setIsProfileMutating(false),
     onError: (err) => console.error('Login error:', err.message),
   });
 

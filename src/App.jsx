@@ -1,5 +1,6 @@
-import { useAuthActions, useSession, useProfile, useIsMutating } from "./stores/authStore";
-import { InsertUsers, FetchUsers, Home, NotFound, ProfilePage, AuthPage, FillUpPage, CreateApplicationPage } from "./pages";
+import { InsertUsers, FetchUsers, HomePage, NotFound, ProfilePage, AuthPage, FillUpPage, CreateApplicationPage } from "./pages";
+import { useAuthActions, useSession, useProfile, useIsProfileMutating } from "./stores/authStore";
+import { useIsAppMutating } from "./stores/applicationStore";
 import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
 import { GlobalLoader } from "./components";
 import { fetchProfile } from "./utils/userData_queries";
@@ -13,8 +14,9 @@ function App() {
     const { setSession, setProfile, setAuthLoading, setProfileLoading } = useAuthActions();
     const this_session = useSession();
     const this_profile = useProfile();
-    const this_mutation = useIsMutating();  
-    console.log("session and user", this_session, this_profile);
+
+    const this_ProfileMutation = useIsProfileMutating();   
+    console.log( "session and user and applications", this_session, this_profile );
 
 
     // Session Event Listener
@@ -36,11 +38,12 @@ function App() {
 
     
     // Fetch User Handler
-    const { data: fetchProfileData, error: fetchProfileError, isLoading, isFetching } = useQuery({
-      queryKey: ['user', this_session?.user?.id],
+    const { data: fetchProfileData, error: fetchProfileError, 
+            isLoading: fetchProfileLoading, isFetching: fetchProfileFetching } = useQuery({
+      queryKey: ['user', this_session?.user?.id, 'profile'],
       queryFn: () => fetchProfile(this_session?.user?.id),
 
-      enabled: !!this_session?.user?.id && !this_mutation,
+      enabled: !!this_session?.user?.id && !this_ProfileMutation,
       refetchOnMount: true,
       refetchOnReconnect: true,
       refetchOnWindowFocus: false,
@@ -50,8 +53,8 @@ function App() {
       retry: 0,
     })
 
-    if(isLoading){ console.log("Is Loading...") }
-    if(isFetching){ console.log("Is Fetching...") }
+    if(fetchProfileLoading){ console.log("Is Loading( Profile )...") }
+    if(fetchProfileFetching){ console.log("Is Fetching( Profile )...") }
 
 
 
@@ -77,22 +80,23 @@ function App() {
         <GlobalLoader /> 
 
         <Routes>
-            {/* Public Routes */}
+            {/* Public Route Guard */}
             <Route element={<PublicRouteGuard />}>
                 <Route path="/" element={<AuthPage />} />
             </Route>
 
 
 
-            {/* Authenticated Routes */}
+            {/* Authenticated Route Guard */}
             <Route element={<SessionRouteGuard />}>
-                <Route path="/Home" element={<Home />} />
+                <Route path="/HomePage" element={<HomePage />} />
                 <Route path="/CreateApplicationPage" element={<CreateApplicationPage />} />
                 <Route path="/ProfilePage" element={<ProfilePage />} />
                 <Route path="/InsertUsers" element={<InsertUsers />} />
                 <Route path="/FetchUsers" element={<FetchUsers />} />
 
                 <Route path="/FillUpPage" element={<FillUpPage />} />
+                <Route path="/CreateApplicationPage" element={<CreateApplicationPage />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

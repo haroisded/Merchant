@@ -1,12 +1,16 @@
 // src/components/ProfileViewModal.jsx
 import { FaShareAlt, FaCamera, FaUser, FaPen, FaLock, FaArrowLeft, FaExchangeAlt, FaSignOutAlt } from 'react-icons/fa';
-import { useProfile } from '@/stores/authStore';
-import { useUIActions } from '@/stores/uiStore';
 import { handleSignOut } from '@/utils/userData_queries';
+import { useQueryClient } from '@tanstack/react-query';
+import { useProfile, useSession } from '@/stores/authStore';
+import { useUIActions } from '@/stores/uiStore';
+
 
 const ProfileViewModal = ({ onClose }) => {
-  const profile = useProfile();
   const { openModal } = useUIActions();
+  const queryClient = useQueryClient();
+  const this_session = useSession();
+  const profile = useProfile();
 
   const displayName = profile?.username || 'Patrick Caro';
   const email = profile?.email || 'patrickcaro2005@gmail.com';
@@ -15,9 +19,12 @@ const ProfileViewModal = ({ onClose }) => {
   const role = profile?.role || 'Business Owner';
   const business = profile?.business_name || 'Cafe 67';
 
-  const handleEdit = () => {
-    openModal('editProfile');
-  };
+  const handleEdit = () => { openModal('editProfile'); };
+
+  const signOut_clearCache = () => {
+    handleSignOut()
+    queryClient.removeQueries({ queryKey: ['user', this_session?.user?.id] });
+  }
 
   return (
     <div className="bg-brand-light rounded-3xl p-6 md:p-8 flex flex-col items-center border border-brand-accent">
@@ -95,7 +102,7 @@ const ProfileViewModal = ({ onClose }) => {
         </button>
         <button className="flex-1 bg-brand-primary text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-sm hover:bg-brand-primary/80 transition">
           <FaSignOutAlt className="w-4 h-4" />
-          <span onClick={ () => handleSignOut() }>Sign Out</span>
+          <span onClick={ () => signOut_clearCache() }>Sign Out</span>
         </button>
       </div>
 

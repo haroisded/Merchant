@@ -8,10 +8,11 @@ function SessionRouteGuard() {
     const isAuthLoading = useIsAuthLoading()
     const isProfileLoading = useIsProfileLoading()
     const role = this_session?.user?.app_metadata?.role
-    const previousPath = localStorage.getItem('previousPath') || '/Home'
+    const previousPath = localStorage.getItem('previousPath') || '/HomePage'
     const claimRoutes = {
         "/FillUpPage": "unregistered",
-        "/AdminPanel": "admin",
+        "/CreateApplicationPage": "creator",
+        "/AdminPanel": "admin"
     }
     const requiredClaim = claimRoutes[location.pathname]
 
@@ -19,19 +20,30 @@ function SessionRouteGuard() {
     // Route Logic Canceller
     if( isAuthLoading || isProfileLoading ){ return null }
 
+
     // Redirect Guards
     if(!!this_session?.user?.id === false){ return <Navigate to="/" replace /> }
 
-    // Has session but no profile → fill up form
+
+    // Has session but no profile → "Fill up Form"
     if(this_profile === null && location.pathname !== "/FillUpPage")
     { return <Navigate to="/FillUpPage" replace /> }
 
-    // Required Claim
-    if(this_profile && requiredClaim && role !== requiredClaim){ return <Navigate to={previousPath} replace /> }
+   
+    // Creator entrapment: if creator started CreateApplicationPage, keep them there
+    if(role === "creator" && location.pathname !== "/CreateApplicationPage")
+    { return <Navigate to="/CreateApplicationPage" replace /> }
 
 
-    // Only store if not on /FillUpPage
-    if(location.pathname !== "/FillUpPage"){ localStorage.setItem('previousPath', location.pathname) }
+    // Invalid Access to Required Claim  
+    if(this_profile && requiredClaim && role !== requiredClaim)
+    { return <Navigate to={previousPath} replace /> }
+
+
+    if(!["/FillUpPage", "/CreateApplicationPage"].includes(location.pathname)){
+    localStorage.setItem('previousPath', location.pathname)
+    }
+    
     return <Outlet />
 }
 

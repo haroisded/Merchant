@@ -1,5 +1,5 @@
 // Main Pages
-export { default as Home } from "./main/Home"
+export { default as HomePage } from "./main/HomePage"
 export { default as ProfilePage } from "./main/ProfilePage"
 export { default as CreateApplicationPage } from "./main/CreateApplicationPage"
 

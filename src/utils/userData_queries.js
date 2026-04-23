@@ -57,7 +57,7 @@ async function fillUpProfile({ userId, email, username, phone }) {
     if (error) throw error;
 
     // Clear the unregistered claim
-    await supabase.rpc('clear_unregistered_role', { auth_user_uuid: userId })
+    await supabase.rpc('clear_role_key_rpc', { auth_user_uuid: userId })
 
     // Refresh session so new JWT reflects cleared role
     await supabase.auth.refreshSession()
@@ -98,14 +98,20 @@ const handleSignOut = async () => {
 
 // FUNCTION: fetchProfile
 async function fetchProfile(userId) {
+  const { data: { user } } = await supabase.auth.getUser()
+  
   const { data, error } = await supabase
-      .rpc('profile_checker', { auth_user_uuid: userId })
+    .from("profiles")
+    .select("*")  // get full profile, not just id
+    .eq("auth_user_id", user.id)
+    .maybeSingle()  // ← returns null instead of error if no rows
+  
   if (error) throw error;
 
-  if(data === null) await supabase.auth.refreshSession()  // ← add back
+  if(data === null) { await supabase.auth.refreshSession() }
 
   return data;
-};
+}
 
 
 
@@ -121,7 +127,7 @@ async function fetchUsers() {
 
 
 
-// FUNCTION: deteUser
+// FUNCTION: deleteUser
 async function deleteUser(userId) {
   const { error } = await supabase
     .from("profiles")
@@ -130,6 +136,16 @@ async function deleteUser(userId) {
 
   if (error) throw error;
 };
+
+
+
+// FUNCTION: clear role key
+async function clear_role_key(userId) {
+    const { error } = await supabase.rpc('clear_role_key_rpc', { auth_user_uuid: userId })
+    if (error) throw error
+
+    await supabase.auth.refreshSession() // ← JWT now reflects cleared role
+}
 
 
 export { 
@@ -141,4 +157,5 @@ export {
   handleSignOut, 
   fillUpProfile,
   signInWithEmail,
+  clear_role_key,
 };

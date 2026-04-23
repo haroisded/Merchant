@@ -18,7 +18,7 @@ function PublicRouteGuard() {
     { return <Navigate to="/FillUpPage" replace /> }
 
     // Not Allowing To Touch Register
-    return <Navigate to="/Home" replace />
+    return <Navigate to="/HomePage" replace />
 }
 
 export default PublicRouteGuard;

@@ -5,12 +5,12 @@ import { useAuthActions } from '@/stores/authStore';
 import { useMutation } from '@tanstack/react-query';
 
 const StyledRegister = () => {
-  const { setIsMutating } = useAuthActions();
+  const { setIsProfileMutating } = useAuthActions();
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: signUpAndCreateProfile,
-    onMutate: () => setIsMutating(true),
-    onSettled: () => setIsMutating(false),
+    onMutate: () => setIsProfileMutating(true),
+    onSettled: () => setIsProfileMutating(false),
     onError: (err) => console.error('Signup error:', err.message),
   });
 
