@@ -28,6 +28,7 @@ const ProfileViewModal = ({ onClose }) => {
 
   return (
     <div className="bg-brand-light rounded-3xl p-6 md:p-8 flex flex-col items-center border border-brand-accent">
+      
       {/* Avatar */}
       <div className="w-24 h-24 bg-brand-primary/20 rounded-full border-4 border-white shadow-md flex items-center justify-center text-brand-primary text-3xl font-bold mb-4">
         {displayName.charAt(0).toUpperCase()}

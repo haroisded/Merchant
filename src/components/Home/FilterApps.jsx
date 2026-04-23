@@ -13,7 +13,8 @@ function FilterApps() {
 
             <div className="bg-brand-dark/10 p-1 rounded-full flex gap-1">
             <button className="px-6 py-2 rounded-full text-xs font-bold uppercase bg-white text-brand-secondary shadow-sm">All Systems</button>
-            <button className="px-6 py-2 rounded-full text-xs font-bold uppercase text-brand-dark/50 hover:text-brand-dark transition-colors">Active</button>
+            <button className="px-6 py-2 rounded-full text-xs font-bold uppercase text-brand-dark/50 hover:text-brand-dark transition-colors">Owned</button>
+            <button className="px-6 py-2 rounded-full text-xs font-bold uppercase text-brand-dark/50 hover:text-brand-dark transition-colors">Collaborated</button>
             <button className="px-6 py-2 rounded-full text-xs font-bold uppercase text-brand-dark/50 hover:text-brand-dark transition-colors">Draft</button>
             </div>
         </div>

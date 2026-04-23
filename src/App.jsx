@@ -1,7 +1,7 @@
 import { InsertUsers, FetchUsers, HomePage, NotFound, ProfilePage, AuthPage, FillUpPage, CreateApplicationPage } from "./pages";
 import { useAuthActions, useSession, useProfile, useIsProfileMutating } from "./stores/authStore";
 import { useIsAppMutating } from "./stores/applicationStore";
-import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
+import { SessionRouteGuard, PublicRouteGuard } from "./routeguards";
 import { GlobalLoader } from "./components";
 import { fetchProfile } from "./utils/userData_queries";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ function App() {
     const this_profile = useProfile();
 
     const this_ProfileMutation = useIsProfileMutating();   
-    console.log( "session and user and applications", this_session, this_profile );
+    console.log( "session and user", this_session, this_profile );
 
 
     // Session Event Listener
@@ -90,12 +90,12 @@ function App() {
             {/* Authenticated Route Guard */}
             <Route element={<SessionRouteGuard />}>
                 <Route path="/HomePage" element={<HomePage />} />
-                <Route path="/CreateApplicationPage" element={<CreateApplicationPage />} />
                 <Route path="/ProfilePage" element={<ProfilePage />} />
                 <Route path="/InsertUsers" element={<InsertUsers />} />
                 <Route path="/FetchUsers" element={<FetchUsers />} />
 
-                <Route path="/FillUpPage" element={<FillUpPage />} />
+
+                <Route path="/FillUpPage" element={<FillUpPage />} /> 
                 <Route path="/CreateApplicationPage" element={<CreateApplicationPage />} />
             </Route>
 

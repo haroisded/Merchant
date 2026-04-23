@@ -1,0 +1,60 @@
+Loading animations are used to let users know that the site is on its way. We have seen loading animated UI skeleton in modern web applications. It can be either a full web page animated skeleton or a small part of the page. Let’s build a card that has a loading animation to it.
+
+We’ll use HTML/CSS to build simple animated loading card.
+
+Let’s create a card with image, heading tag, and paragraph tag.
+
+<div class="card">
+    <div class="card__image"></div>
+    <div class="card__content">
+      <h2></h2>
+      <p></p>
+    </div>
+</div>
+Now, let us add some basic styling to it.
+
+.card {
+  width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.card__content {
+  padding: 20px;
+}
+CSS Loading Animation
+Now, add a loading animation using @keyframes which will move the background to give it a shining effect.
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+We’ll add few more classes that will add the backgrounds to the image, heading tag, and paragraph tag.
+
+.card__image,
+h2,
+p {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1s shine linear infinite;
+}
+.card__image {
+  height: 200px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.card__content {
+  padding: 20px;
+}
+h2 {
+  height: 30px;
+}
+p {
+  height: 70px;
+  width: 80%;
+}
+In the above code, animation selector is the key part in animating the elements. It is a shorthand property for setting all the animation properties.
+
+animation: 1s shine linear infinite;

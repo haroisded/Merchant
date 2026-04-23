@@ -18,7 +18,7 @@ export default function UsersList() {
     mutationFn: deleteUser,
     onSuccess: () => {
       // After successful delete, refetch users list
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] })// This is wrong, only remove specific cache 
     },
     onError: (error) => { alert(error.message)},
   })

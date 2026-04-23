@@ -1,13 +1,11 @@
 import { useIsAuthLoading, useIsProfileLoading } from '@/stores/authStore';
 import { useIsGlobalLoading } from '@/stores/uiStore';
-import { useIsAppLoading } from '@/stores/applicationStore'
 import { LoadingSpinner } from '@/components';
 
 const GlobalLoader = () => {
   const isAuthLoading = useIsAuthLoading();
   const isProfileLoading = useIsProfileLoading();
   const isGlobalLoading = useIsGlobalLoading();
-  const this_AppLoading = useIsAppLoading();
 
   const isLoading = isAuthLoading || isProfileLoading || isGlobalLoading;
 
@@ -18,7 +16,7 @@ const GlobalLoader = () => {
       <LoadingSpinner size={80} />
       <p className="mt-4 text-teal-800 font-medium text-sm">
         {isAuthLoading && 'Checking Session...'}
-        {isProfileLoading && 'Profile Loading...'}
+        {isProfileLoading && 'Loading Profile...'}
         {isGlobalLoading && 'Please wait...'}
       </p>
     </div>

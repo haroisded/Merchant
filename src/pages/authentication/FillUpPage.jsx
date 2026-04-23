@@ -5,6 +5,7 @@ import { Input, LoadingSpinner } from '@/components';
 import { FaUser, FaPhoneAlt } from 'react-icons/fa';
 
 const FillUpPage = () => {
+  
   const { setIsProfileMutating } = useAuthActions();
   const this_session = useSession();
   const queryClient = useQueryClient();
@@ -19,6 +20,7 @@ const FillUpPage = () => {
     onError: (err) => console.error('FillUp error:', err.message),
   });
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -29,6 +31,8 @@ const FillUpPage = () => {
       phone: formData.get('phone'),
     });
   };
+
+
 
   return (
     <div className="min-h-screen bg-mainBg flex flex-col justify-center items-center py-6 px-4">
