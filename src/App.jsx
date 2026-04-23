@@ -1,4 +1,13 @@
-import { InsertUsers, FetchUsers, HomePage, NotFound, ProfilePage, AuthPage, FillUpPage, CreateApplicationPage } from "./pages";
+import { 
+    HomePage, 
+    NotFound, 
+    ProfilePage, 
+    AuthPage, 
+    FillUpPage, 
+    CreateApplicationPage, 
+    ApplicationPage 
+} from "./pages";
+
 import { useAuthActions, useSession, useProfile, useIsProfileMutating } from "./stores/authStore";
 import { useIsAppMutating } from "./stores/applicationStore";
 import { SessionRouteGuard, PublicRouteGuard } from "./routeguards";
@@ -91,8 +100,7 @@ function App() {
             <Route element={<SessionRouteGuard />}>
                 <Route path="/HomePage" element={<HomePage />} />
                 <Route path="/ProfilePage" element={<ProfilePage />} />
-                <Route path="/InsertUsers" element={<InsertUsers />} />
-                <Route path="/FetchUsers" element={<FetchUsers />} />
+                <Route path="/ApplicationPage" element={<ApplicationPage />} />
 
 
                 <Route path="/FillUpPage" element={<FillUpPage />} /> 

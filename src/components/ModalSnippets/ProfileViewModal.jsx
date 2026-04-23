@@ -22,8 +22,8 @@ const ProfileViewModal = ({ onClose }) => {
   const handleEdit = () => { openModal('editProfile'); };
 
   const signOut_clearCache = () => {
-    handleSignOut()
     queryClient.removeQueries({ queryKey: ['user', this_session?.user?.id] });
+    handleSignOut()
   }
 
   return (
