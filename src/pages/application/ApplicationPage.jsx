@@ -2,6 +2,7 @@ import React from 'react'
 
 import { clear_role_key } from '@/utils/userData_queries';
 import { useSession } from '@/stores/authStore'
+import { AppWrapper, BottomNav, FilterFeatures } from '@/components'
 
 
 function ApplicationPage() {
@@ -11,9 +12,14 @@ function ApplicationPage() {
 
   return (
    <>
-    <div>You're in ApplicationPage</div>
+    <AppWrapper> 
+      
+      <FilterFeatures />
 
+      <BottomNav/>
+    
     <button onClick={() => clear_role_key(this_session?.user?.id)}> Clear Role Key </button>
+    </AppWrapper>
    </>
   )
 }

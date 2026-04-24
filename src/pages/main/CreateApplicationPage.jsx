@@ -39,7 +39,7 @@ const CreateApplicationPage = () => {
         app_type: formData.app_type,
         app_password: formData.app_password,
         app_secret: formData.app_secret,
-        app_creator_id: this_profile?.id, // ← from session
+        app_creator_id: this_profile?.id,
         application_imageURL: null, // ← handle uploads later
       });
     },

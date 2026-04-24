@@ -64,6 +64,16 @@ async function createApplication({
 
   if (error) throw error;
 
+  const app_id = data[0].id; // ← grab the new app's UUID
+
+  const [{ error: error2 }, { error: error3 }] = await Promise.all([
+    supabase.from("ft_dashboard").insert({ app_id: app_id, app_creator_id: app_creator_id }),  // ← replace with real table/column names
+    supabase.from("ft_product_input").insert({ app_id: app_id, app_creator_id: app_creator_id }),
+  ]);
+
+  if (error2) throw error2;
+  if (error3) throw error3;
+
   return data;
 }
 
