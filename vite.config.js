@@ -7,19 +7,7 @@ import path from "path";
 export default defineConfig({  
 	plugins: [react(), tailwindcss()],
 	resolve: {
-		alias: { '@': path.resolve(__dirname, 'src'), },
-		extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			alias: { '@': path.resolve(__dirname, 'src'), },
+			extensions: ['.js', '.jsx', '.ts', '.tsx'],
 	},
-	build: {
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					react: ['react', 'react-dom', 'react-router'], // ← Splits React ecosystem
-					query: ['@tanstack/react-query'], // ← Separates TanStack Query
-					supabase: ['@supabase/supabase-js'], // ← Isolates Supabase
-				}
-			}
-		},
-		chunkSizeWarningLimit: 1000, // ← Suppresses warning for your bundle
-	}
 });
