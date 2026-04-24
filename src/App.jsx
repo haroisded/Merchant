@@ -10,7 +10,8 @@ import {
 
 import { useAuthActions, useSession, useProfile, useIsProfileMutating } from "./stores/authStore";
 import { useIsAppMutating } from "./stores/applicationStore";
-import { SessionRouteGuard, PublicRouteGuard } from "./RouteGuards";
+import SessionRouteGuard from "./RouteGuards/SessionRouteGuard";
+import PublicRouteGuard from "./RouteGuards/PublicRouteGuard";
 import { GlobalLoader } from "./components";
 import { fetchProfile } from "./utils/userData_queries";
 import { useQuery } from "@tanstack/react-query";
