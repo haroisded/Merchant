@@ -80,7 +80,7 @@ const handleGoogleSignIn = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${window.location.origin}/` /* vercel: 'https://merchant-cyan.vercel.app, vercel-dev: `${window.location.origin}/` */
+      redirectTo: 'https://merchant-cyan.vercel.app' /* vercel: 'https://merchant-cyan.vercel.app, vercel-dev: `${window.location.origin}/` */
     }
   })
   if (error) console.error('Google sign in error:', error)
